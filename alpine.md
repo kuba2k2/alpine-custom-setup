@@ -3,6 +3,11 @@
 ## Environment setup
 
 ```bash
+# enable community repository
+sed -i '/v3\.\d*\/community/s/^#//' /etc/apk/repositories
+# update apk repos
+apk update
+
 # install sudo
 apk add sudo
 apk del doas
@@ -11,6 +16,8 @@ ln -s $(which sudo) /usr/bin/doas
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
 # same without password
 echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel-nopw
+# block root password login
+sudo passwd -d root
 
 # replace busybox
 apk add util-linux usbutils coreutils binutils findutils grep iproute2 wget less
