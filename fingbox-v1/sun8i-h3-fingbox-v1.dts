@@ -1,0 +1,275 @@
+/dts-v1/;
+#include "sun8i-h3.dtsi"
+#include "sunxi-common-regulators.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+/ {
+	model = "Fingbox v1";
+	compatible = "fing,fingbox-v1", "allwinner,sun8i-h3";
+
+	aliases {
+		serial0 = &uart0;
+		ethernet0 = &emac;
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		// White internal power LED
+		pwr_led {
+			label = "fingbox:white:pwr";
+			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>; /* PL10 */
+			default-state = "on";
+		};
+
+		// Green internal status LED
+		status_led {
+			label = "fingbox:green:status";
+			gpios = <&pio 0 15 GPIO_ACTIVE_HIGH>; /* PA15 */
+		};
+	};
+
+	r_gpio_keys {
+		compatible = "gpio-keys";
+
+		// External "RESET" button
+		recovery {
+			label = "recovery";
+			linux,code = <KEY_POWER>;
+			gpios = <&r_pio 0 4 GPIO_ACTIVE_LOW>; /* PL4 */
+			wakeup-source;
+		};
+
+		// Internal "POWER" button
+		power {
+			label = "power";
+			linux,code = <BTN_0>;
+			gpios = <&r_pio 0 1 GPIO_ACTIVE_LOW>; /* PL0 */
+			wakeup-source;
+		};
+	};
+
+	reg_gmac_3v3: gmac-3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "gmac-3v3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		startup-delay-us = <100000>;
+		enable-active-high;
+		gpio = <&pio 3 6 GPIO_ACTIVE_HIGH>; /* PD6 */
+	};
+
+	reg_led_3v3: led-3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "led-3v3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-boot-on;
+		regulator-always-on;
+		enable-active-high;
+		gpio = <&pio 0 17 GPIO_ACTIVE_HIGH>; /* PA17 */
+	};
+};
+
+&uart0 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart0_pa_pins>; /* PA4, PA5 */
+};
+
+&i2c1 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c1_pins>; /* PA18, PA19 */
+
+	eeprom@50 {
+		compatible = "at24,24c02";
+		reg = <0x50>;
+		pagesize = <0x10>;
+	};
+
+	pca9633@62 {
+		compatible = "nxp,pca9633";
+		#address-cells = <0x01>;
+		#size-cells = <0x00>;
+		reg = <0x62>;
+		nxp,totem-pole;
+
+		red1@1 {
+			label = "fingbox:led1:red";
+			reg = <0x1>;
+		};
+		green1@0 {
+			label = "fingbox:led1:green";
+			reg = <0x0>;
+		};
+		blue1@2 {
+			label = "fingbox:led1:blue";
+			reg = <0x2>;
+		};
+	};
+
+	pca9635@15 {
+		compatible = "nxp,pca9635";
+		#address-cells = <0x01>;
+		#size-cells = <0x00>;
+		reg = <0x15>;
+		nxp,totem-pole;
+
+		red2@1 {
+			label = "fingbox:led2:red";
+			reg = <0x1>;
+		};
+		green2@0 {
+			label = "fingbox:led2:green";
+			reg = <0x0>;
+		};
+		blue2@2 {
+			label = "fingbox:led2:blue";
+			reg = <0x2>;
+		};
+
+		red3@a {
+			label = "fingbox:led3:red";
+			reg = <0xa>;
+		};
+		green3@9 {
+			label = "fingbox:led3:green";
+			reg = <0x9>;
+		};
+		blue3@b {
+			label = "fingbox:led3:blue";
+			reg = <0xb>;
+		};
+
+		red4@d {
+			label = "fingbox:led4:red";
+			reg = <0xd>;
+		};
+		green4@c {
+			label = "fingbox:led4:green";
+			reg = <0xc>;
+		};
+		blue4@e {
+			label = "fingbox:led4:blue";
+			reg = <0xe>;
+		};
+
+		red5@7 {
+			label = "fingbox:led5:red";
+			reg = <0x7>;
+		};
+		green5@6 {
+			label = "fingbox:led5:green";
+			reg = <0x6>;
+		};
+		blue5@8 {
+			label = "fingbox:led5:blue";
+			reg = <0x8>;
+		};
+
+		red6@4 {
+			label = "fingbox:led6:red";
+			reg = <0x4>;
+		};
+		green6@3 {
+			label = "fingbox:led6:green";
+			reg = <0x3>;
+		};
+		blue6@5 {
+			label = "fingbox:led6:blue";
+			reg = <0x5>;
+		};
+	};
+};
+
+&mmc2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc2_8bit_pins>; /* PC5~PC6, PC8~PC16 */
+	vmmc-supply = <&reg_vcc3v3>;
+	bus-width = <8>;
+	non-removable;
+	cap-mmc-hw-reset;
+	status = "okay";
+};
+
+&mmc2_8bit_pins {
+	/* Increase drive strength for DDR modes */
+	drive-strength = <40>;
+	/* eMMC is missing pull-ups */
+	bias-pull-up;
+};
+
+&reg_usb1_vbus {
+	status = "okay";
+	gpio = <&r_pio 0 3 GPIO_ACTIVE_HIGH>; /* PL3 */
+};
+
+&usbphy {
+	status = "okay";
+	usb1_vbus-supply = <&reg_usb1_vbus>;
+};
+
+&usb_otg {
+	status = "okay";
+	dr_mode = "peripheral";
+};
+
+// USB Micro-B port - disabled; gadget mode only
+&ehci0 {
+	status = "disabled";
+};
+
+&ohci0 {
+	status = "disabled";
+};
+
+// USB A port - EHCI and OHCI enabled
+&ehci1 {
+	status = "okay";
+};
+
+&ohci1 {
+	status = "okay";
+};
+
+// Not connected - disabled
+&ehci2 {
+	status = "disabled";
+};
+
+&ohci2 {
+	status = "disabled";
+};
+
+// Wi-Fi card (AR9271) - only EHCI enabled (USB 2.0)
+&ehci3 {
+	status = "okay";
+};
+
+&ohci3 {
+	status = "disabled";
+};
+
+&emac {
+	pinctrl-names = "default";
+	pinctrl-0 = <&emac_rgmii_pins>;
+	phy-supply = <&reg_gmac_3v3>;
+	phy-handle = <&ext_rgmii_phy>;
+	phy-mode = "rgmii-id";
+	allwinner,leds-active-low;
+	status = "okay";
+};
+
+&external_mdio {
+	ext_rgmii_phy: ethernet-phy@1 {
+		compatible = "ethernet-phy-ieee802.3-c22";
+		reg = <1>;
+	};
+};

@@ -1,0 +1,24 @@
+From 37a7fb017c09b191147bde89b524d0e3e5c64366 Mon Sep 17 00:00:00 2001
+From: root <root@buildhost>
+Date: Wed, 5 Jul 2023 12:49:15 +0200
+Subject: [PATCH 3/3] arm: dts: add sun5i-a13-q8a-tablet.dts
+
+---
+ arch/arm/dts/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index c160e884bf..d8edb0ba5e 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -594,6 +594,7 @@ dtb-$(CONFIG_MACH_SUN5I) += \
+ 	sun5i-a13-olinuxino-micro.dtb \
+ 	sun5i-a13-pocketbook-touch-lux-3.dtb \
+ 	sun5i-a13-q8-tablet.dtb \
++	sun5i-a13-q8a-tablet.dtb \
+ 	sun5i-a13-utoo-p66.dtb \
+ 	sun5i-gr8-chip-pro.dtb \
+ 	sun5i-gr8-evb.dtb \
+-- 
+2.25.1
+

@@ -1,0 +1,24 @@
+From 63db8a165074a2d9fe37187ec3617432e4067000 Mon Sep 17 00:00:00 2001
+From: root <root@buildhost>
+Date: Sun, 16 Jul 2023 12:11:09 +0200
+Subject: [PATCH] arm: dts: add sun8i-h3-fingbox-v1.dts
+
+---
+ arch/arm/dts/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index d8edb0ba5e..71a4f26aaf 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -683,6 +683,7 @@ dtb-$(CONFIG_MACH_SUN8I_H3) += \
+ 	sun8i-h3-bananapi-m2-plus-v1.2.dtb \
+ 	sun8i-h3-beelink-x2.dtb \
+ 	sun8i-h3-emlid-neutis-n5h3-devboard.dtb \
++	sun8i-h3-fingbox-v1.dtb \
+ 	sun8i-h3-libretech-all-h3-cc.dtb \
+ 	sun8i-h3-mapleboard-mp130.dtb \
+ 	sun8i-h3-nanopi-duo2.dtb \
+-- 
+2.25.1
+
