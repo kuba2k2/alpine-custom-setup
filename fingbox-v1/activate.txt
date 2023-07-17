@@ -1,0 +1,2 @@
+acs/sunxi-common/copy-linux.sh
+acs/sunxi-common/copy-uboot.sh
