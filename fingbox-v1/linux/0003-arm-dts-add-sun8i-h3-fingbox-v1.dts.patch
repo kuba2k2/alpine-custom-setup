@@ -7,10 +7,10 @@ Subject: [PATCH] arm: dts: add sun8i-h3-fingbox-v1.dts
  arch/arm/boot/dts/Makefile | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/allwinner/Makefile
 index 5b4d1386d4778..dfca1b683c56e 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
+--- a/arch/arm/boot/dts/allwinner/Makefile
++++ b/arch/arm/boot/dts/allwinner/Makefile
 @@ -1370,6 +1370,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
  	sun8i-h3-bananapi-m2-plus.dtb \
  	sun8i-h3-bananapi-m2-plus-v1.2.dtb \

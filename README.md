@@ -4,7 +4,7 @@ This is a collection of scripts and guides for installing Alpine Linux on some h
 
 The common scripts are a good starting point for building custom kernels & U-Boot for porting to new devices.
 
-This has been tested with the latest (at the time of writing) versions of Linux and U-Boot, 6.3.11 and 2023.04 respectively.
+This has been tested with the latest (at the time of writing) versions of Linux and U-Boot, 6.6.8 and 2023.04 respectively.
 
 Also see: [alpine-home-assistant](https://github.com/kuba2k2/alpine-home-assistant)
 
