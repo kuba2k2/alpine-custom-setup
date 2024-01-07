@@ -13,9 +13,8 @@ fi
 # pull & checkout
 echo "Updating U-Boot to $ver"
 pushd uboot/
-git pull --depth 1 -f -k origin tags/$ver
+git fetch --depth 1 origin refs/tags/$ver:refs/tags/$ver
 echo ""
-git tag $ver FETCH_HEAD 2> /dev/null || true
 git checkout $ver
 git checkout .
 popd

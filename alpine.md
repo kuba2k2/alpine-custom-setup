@@ -20,7 +20,7 @@ echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel-nopw
 sudo passwd -d root
 
 # replace busybox
-apk add util-linux usbutils coreutils binutils findutils grep iproute2 wget less
+apk add util-linux usbutils coreutils binutils findutils grep iproute2 wget less diffutils
 # add vim
 apk add vim
 

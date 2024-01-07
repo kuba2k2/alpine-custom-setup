@@ -10,10 +10,10 @@ git am $WORK/acs/$TARGET/linux/*.patch
 
 # copy .dts and commit
 if compgen -G "$WORK/acs/$TARGET/*.dts" > /dev/null; then
-	cp $WORK/acs/$TARGET/*.dts arch/arm/boot/dts/
+	cp $WORK/acs/$TARGET/*.dts arch/arm/boot/dts/allwinner/
 fi
 if compgen -G "$WORK/acs/$TARGET/linux/*.dts" > /dev/null; then
-	cp $WORK/acs/$TARGET/linux/*.dts arch/arm/boot/dts/
+	cp $WORK/acs/$TARGET/linux/*.dts arch/arm/boot/dts/allwinner/
 fi
 git add arch/arm/boot/dts/
 # commit .dts changes
