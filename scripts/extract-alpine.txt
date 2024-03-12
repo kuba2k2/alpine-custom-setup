@@ -1,4 +1,0 @@
-./.alpine-release
-./alpine.apkovl.tar.gz
-./apks/
-./boot/initramfs-lts
