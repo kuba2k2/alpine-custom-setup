@@ -1,0 +1,25 @@
+From 9db3fd5f4090350b0c477ed15fa4e563ba0f751b Mon Sep 17 00:00:00 2001
+From: root <root@buildhost>
+Date: Sun, 14 Jan 2024 16:49:54 +0100
+Subject: [PATCH] power: disable rk30 battery debug logging
+
+---
+ drivers/power/rk30_factory_adc_battery.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/power/rk30_factory_adc_battery.c b/drivers/power/rk30_factory_adc_battery.c
+index 32d1e8d2..7447f578 100755
+--- a/drivers/power/rk30_factory_adc_battery.c
++++ b/drivers/power/rk30_factory_adc_battery.c
+@@ -45,7 +45,7 @@
+ extern suspend_state_t get_suspend_state(void);
+ #endif
+ 
+-static int rk30_battery_dbg_level = 1;
++static int rk30_battery_dbg_level = 0;
+ module_param_named(dbg_level, rk30_battery_dbg_level, int, 0644);
+ #define DBG( args...) \
+ 	do { \
+-- 
+2.25.1
+

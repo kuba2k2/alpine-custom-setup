@@ -1,0 +1,6 @@
+package-file	package-file
+bootloader		RK292xLoader(L)_V1.26.bin
+parameter		parameter
+misc			misc.img
+kernel			kernel.img
+boot			boot.img

@@ -1,0 +1,25 @@
+From 558617ecf4682cb11ee91ec346367cbaa238af0a Mon Sep 17 00:00:00 2001
+From: root <root@buildhost>
+Date: Sun, 14 Jan 2024 17:36:12 +0100
+Subject: [PATCH] input: disable rockchip gslx680 debugging
+
+---
+ drivers/input/touchscreen/rockchip_gslX680.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/input/touchscreen/rockchip_gslX680.c b/drivers/input/touchscreen/rockchip_gslX680.c
+index 0fd9d5a1..d1d840c3 100755
+--- a/drivers/input/touchscreen/rockchip_gslX680.c
++++ b/drivers/input/touchscreen/rockchip_gslX680.c
+@@ -28,7 +28,7 @@
+ 
+ #include "rockchip_gslX680.h"
+ 
+-#define GSL_DEBUG
++//#define GSL_DEBUG
+ //#define GSL_TIMER
+ #define REPORT_DATA_ANDROID_4_0
+ 
+-- 
+2.25.1
+
