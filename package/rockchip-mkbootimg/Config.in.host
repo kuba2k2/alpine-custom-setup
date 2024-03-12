@@ -1,0 +1,6 @@
+config BR2_PACKAGE_HOST_ROCKCHIP_MKBOOTIMG
+	bool "host rockchip-mkbootimg"
+	help
+		Tools to create firmware / boot images for Rockchip devices
+
+		https://github.com/neo-technologies/rockchip-mkbootimg

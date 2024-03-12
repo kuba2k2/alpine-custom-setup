@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_ACS_PATH/toolchain/toolchain-external-linaro-2016.02-arm-linux-gnueabihf/Config.in.options"

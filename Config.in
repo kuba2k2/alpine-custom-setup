@@ -1,0 +1,3 @@
+source "$BR2_EXTERNAL_ACS_PATH/toolchain/Config.in"
+source "$BR2_EXTERNAL_ACS_PATH/package/rockchip-mkbootimg/Config.in.host"
+source "$BR2_EXTERNAL_ACS_PATH/package/skeleton-alpine/Config.in"

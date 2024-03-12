@@ -1,0 +1,9 @@
+if BR2_TOOLCHAIN_EXTERNAL_LINARO_2016_02_ARM_LINUX_GNUEABIHF
+
+config BR2_TOOLCHAIN_EXTERNAL_PREFIX
+	default "arm-linux-gnueabihf"
+
+config BR2_PACKAGE_PROVIDES_TOOLCHAIN_EXTERNAL
+	default "toolchain-external-linaro-2016.02-arm-linux-gnueabihf"
+
+endif

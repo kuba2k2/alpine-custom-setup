@@ -1,0 +1,45 @@
+From 4ea7bc28ac987708abdbd771c268047eb9db279f Mon Sep 17 00:00:00 2001
+From: root <root@buildhost>
+Date: Thu, 11 Jan 2024 16:47:32 +0100
+Subject: [PATCH] img_maker: support rk28 chip
+
+---
+ img_maker.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/img_maker.c b/img_maker.c
+index 0f532c0..435735c 100644
+--- a/img_maker.c
++++ b/img_maker.c
+@@ -94,6 +94,8 @@ int pack_rom(unsigned int chiptype, const char *loader_filename, int majver, int
+ 	rom_header.version = (((majver) << 24) + ((minver) << 16) + (subver));
+ 	if(chiptype == 0x50){
+ 		rom_header.code = 0x01030000;
++	}else if(chiptype == 0x51) {
++		rom_header.code = 0x01050000;
+ 	}else if(chiptype == 0x60) {
+ 		rom_header.code = 0x01050000;
+ 	}else if(chiptype == 0x70) {
+@@ -197,7 +199,7 @@ void usage(const char *appname) {
+ 			"%s -rk3368 Loader.bin 5 0 0 rawimage.img rkimage.img \tRK3368 board\n"
+ 			"\n\n"
+ 			"Options:\n"
+-			"[chiptype]:\n\t-rk29\n\t-rk30\n\t-rk31\n\t-rk3128\n\t-rk32\n\t-rk3368\n", p, p, p, p, p, p);
++			"[chiptype]:\n\t-rk28\n\t-rk29\n\t-rk30\n\t-rk31\n\t-rk3128\n\t-rk32\n\t-rk3368\n", p, p, p, p, p, p);
+ }
+ 
+ int main(int argc, char **argv)
+@@ -210,6 +212,10 @@ int main(int argc, char **argv)
+ 		{
+ 			ret = pack_rom(0x50, argv[2], atoi(argv[3]), atoi(argv[4]), atoi(argv[5]), argv[6], argv[7]);
+ 		}
++		else if (strcmp(argv[1], "-rk28") == 0)
++		{
++			ret = pack_rom(0x51, argv[2], atoi(argv[3]), atoi(argv[4]), atoi(argv[5]), argv[6], argv[7]);
++		}
+ 		else if (strcmp(argv[1], "-rk30") == 0)
+ 		{
+ 			ret = pack_rom(0x60, argv[2], atoi(argv[3]), atoi(argv[4]), atoi(argv[5]), argv[6], argv[7]);
+-- 
+2.25.1
+

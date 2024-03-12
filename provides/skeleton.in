@@ -1,0 +1,33 @@
+config BR2_ROOTFS_SKELETON_ALPINE
+	bool "Alpine Linux rootfs skeleton"
+	select BR2_PACKAGE_SKELETON_ALPINE
+	select BR2_INIT_NONE
+
+if BR2_ROOTFS_SKELETON_ALPINE
+
+config BR2_ROOTFS_SKELETON_ALPINE_RELEASE
+	string "Release number (3.x)"
+	default "3.19"
+
+config BR2_ROOTFS_SKELETON_ALPINE_VERSION
+	string "Version number (3.x.y)"
+	default "3.19.0"
+
+config BR2_ROOTFS_SKELETON_ALPINE_ARCH
+	string "Architecture"
+	default "armhf" if BR2_ARM_EABIHF
+	default "armv7" if BR2_ARM_EABI
+	default "UNKNOWN"
+
+config BR2_ROOTFS_SKELETON_ALPINE_FIRMWARE
+	string "Extra firmware APK(s)"
+	help
+		Space-separated list of firmware APKs to copy to bootfs - without "linux-firmware-" prefix.
+
+		APKs will be available in "bootfs/apks/".
+
+		Will not auto-resolve dependencies.
+
+comment "***"
+
+endif
