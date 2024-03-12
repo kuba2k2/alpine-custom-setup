@@ -1,0 +1,17 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	fragment@1 {
+		target = <&ehci3>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@2 {
+		target = <&ohci3>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+};
