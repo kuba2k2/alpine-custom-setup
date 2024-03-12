@@ -116,22 +116,21 @@
 	status = "okay";
 };
 
+&reg_usb0_vbus {
+	regulator-always-on;
+	status = "okay";
+};
+
 &ohci0 {
 	status = "okay";
 };
 
-&usb_otg {
-	dr_mode = "otg";
+&ehci0 {
 	status = "okay";
 };
 
-&reg_ldo3 {
-	status = "disabled";
-};
-
-&usbphy {
-	usb0_vbus-supply = <&reg_usb0_vbus>;
-	usb1_vbus-supply = <>;
+&usb_otg {
+	dr_mode = "host";
 	status = "okay";
 };
 
@@ -155,12 +154,7 @@
 
 			boot0@0 {
 				label = "boot0";
-				reg = /bits/ 64 <0x0 0x100000>;
-			};
-
-			boot0-rescue@100000 {
-				label = "boot0-rescue";
-				reg = /bits/ 64 <0x100000 0x100000>;
+				reg = /bits/ 64 <0x0 0x200000>;
 			};
 
 			uboot@200000 {

@@ -1,0 +1,40 @@
+From a6e1b98d3be324e907bb3b263743e80959bb017c Mon Sep 17 00:00:00 2001
+From: root <root@buildhost>
+Date: Wed, 5 Jul 2023 17:42:44 +0200
+Subject: [PATCH] mtd: rawnand: Set the pairing scheme for NAND
+
+---
+ drivers/mtd/nand/raw/nand_micron.c | 3 +++
+ drivers/mtd/nand/raw/nand_hynix.c | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/drivers/mtd/nand/raw/nand_micron.c b/drivers/mtd/nand/raw/nand_micron.c
+index c0192881906b8..43d2d0dd4256b 100644
+--- a/drivers/mtd/nand/raw/nand_micron.c
++++ b/drivers/mtd/nand/raw/nand_micron.c
+@@ -563,6 +563,9 @@ static int micron_nand_init(struct nand_chip *chip)
+ 		}
+ 	}
+ 
++	chip->options |= NAND_NEED_SCRAMBLING;
++	mtd_set_pairing_scheme(mtd, &dist3_pairing_scheme);
++
+ 	return 0;
+ 
+ err_free_manuf_data:
+diff --git a/drivers/mtd/nand/raw/nand_hynix.c b/drivers/mtd/nand/raw/nand_hynix.c
+index c0192881906b8..43d2d0dd4256b 100644
+--- a/drivers/mtd/nand/raw/nand_hynix.c
++++ b/drivers/mtd/nand/raw/nand_hynix.c
+@@ -709,6 +709,9 @@ static int hynix_nand_init(struct nand_chip *chip)
+ 	hynix = kzalloc(sizeof(*hynix), GFP_KERNEL);
+ 	if (!hynix)
+ 		return -ENOMEM;
++
++	chip->options |= NAND_NEED_SCRAMBLING;
++	mtd_set_pairing_scheme(nand_to_mtd(chip), &dist3_pairing_scheme);
+ 
+ 	nand_set_manufacturer_data(chip, hynix);
+ 
+-- 
+2.25.1

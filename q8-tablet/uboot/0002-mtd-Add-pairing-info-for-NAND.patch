@@ -1,9 +1,9 @@
 From 5bf89a2e9658a28af4f767ee9cc25d666569c414 Mon Sep 17 00:00:00 2001
 From: root <root@buildhost>
 Date: Thu, 16 Dec 2021 12:44:47 -0600
-Subject: [PATCH 2/3] mtd: Add pairing info for Micron MT29F32G08CBACAWP NAND
+Subject: [PATCH 2/3] mtd: Add pairing info for NAND
 
-Add pairing info for the Micron MT29F32G08CBACAWP NAND so that we may
+Add pairing info for the NAND so that we may
 utilize slc-mode emulation for enhanced reliability and compatibility
 with upstream Linux.
 ---
@@ -16,17 +16,13 @@ diff --git a/drivers/mtd/nand/raw/nand_base.c b/drivers/mtd/nand/raw/nand_base.c
 index 3383ebc561..3cf537536c 100644
 --- a/drivers/mtd/nand/raw/nand_base.c
 +++ b/drivers/mtd/nand/raw/nand_base.c
-@@ -4454,6 +4454,14 @@ int nand_detect(struct nand_chip *chip, int *maf_id,
+@@ -4454,6 +4454,10 @@ int nand_detect(struct nand_chip *chip, int *maf_id,
  
  ident_done:
  
-+	/* Enable slc-mode on MT29F32G08CBACAWP to match upstream Linux */
-+	if (id_data[0] == NAND_MFR_MICRON && id_data[1] == 0x68
-+	    && id_data[2] == 0x04 && id_data[3] == 0x4a
-+	    && id_data[4] == 0xa9 && id_data[5] == 0x00) {
-+		chip->options |= NAND_NEED_SCRAMBLING;
-+		mtd_set_pairing_scheme(mtd, &dist3_pairing_scheme);
-+	}
++	/* Enable slc-mode to match upstream Linux */
++	chip->options |= NAND_NEED_SCRAMBLING;
++	mtd_set_pairing_scheme(mtd, &dist3_pairing_scheme);
 +
  	if (chip->options & NAND_BUSWIDTH_AUTO) {
  		WARN_ON(chip->options & NAND_BUSWIDTH_16);
@@ -59,4 +55,3 @@ index c378f08f68..88fcd6ac31 100644
  	 * in the DT.
 -- 
 2.25.1
-
