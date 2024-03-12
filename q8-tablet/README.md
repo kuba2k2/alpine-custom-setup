@@ -67,7 +67,16 @@ Login as root.
 
 ## Enable network connectivity
 
-Refer to [alpine.md -> Hardware/peripherals](../alpine.md#network-using-g_ether-usb-gadget).
+```bash
+cd /media/mmcblk0p1/apks
+apk add wpa_supplicant dhclient
+apk add --force-non-repository linux-firmware-rtlwifi-*.apk
+rmmod rtl8xxxu && modprobe rtl8xxxu
+```
+
+Now, follow [wpa_supplicant - ArchWiki](https://wiki.archlinux.org/title/wpa_supplicant) guide to connect to Wi-Fi.
+
+Finally, run `dhclient` to get an IP address. Internet access should be working now.
 
 ## Basic setup
 
@@ -85,8 +94,8 @@ apk add mtd-utils
 ## Format root volume
 
 ```bash
-cat /proc/mtd							# make sure there are 5 MTD partitions
-ubiattach -p /dev/mtd4					# attach to "ubi" partition
+cat /proc/mtd							# make sure there are 4 MTD partitions
+ubiattach -p /dev/mtd3					# attach to "ubi" partition
 ubinfo -a								# make sure the "env" and "root" volumes are present
 mkfs.ubifs /dev/ubi0_1					# format the root volume
 mkdir -p /mnt/root						# create a mountpoint
@@ -103,7 +112,7 @@ cp -R /media/mmcblk0p1/extlinux /mnt/root/
 # ignore bootloader updating
 export BOOTLOADER=none
 # install system files to the root volume
-setup-disk -m sys -v -s 0 -k firmware-none /mnt/root
+setup-disk -m sys -v -s 0 -k firmware-rtlwifi /mnt/root
 # copy kernel modules
 mkdir -p /mnt/root/lib/modules
 cp -R /lib/modules/`uname -r` /mnt/root/lib/modules/
