@@ -1,10 +1,3 @@
-setenv bootm_size 0xa000000
-setenv kernel_addr_r 0x42000000
-setenv fdt_addr_r 0x43000000
-setenv scriptaddr 0x43100000
-setenv pxefile_addr_r 0x43200000
-setenv fdtoverlay_addr_r 0x43300000
-setenv ramdisk_addr_r 0x43400000
 setenv eeprom_addr 0x44000000
 setenv eeprom_i2c 0x50
 mac_invalid_eth0=02:00:00:00:42:42
@@ -66,6 +59,8 @@ if test -e mmc 1:2 /bin/sh; then
 	fsuuid mmc 1:2 rootuuid
 	echo "Found root filesystem on MMC 1:2 with UUID=${rootuuid}"
 	setenv bootargs "${bootargs} root=UUID=${rootuuid}"
+else
+	echo "Root filesystem not found!"
 fi
 
 if test -n ${fel_booted} && test -n ${fel_scriptaddr}; then
@@ -73,9 +68,9 @@ if test -n ${fel_booted} && test -n ${fel_scriptaddr}; then
 	source ${fel_scriptaddr}
 fi
 
-if test -e mmc 1:1 /extlinux/extlinux.conf; then
+if test -e mmc 1:1 ${bootfile}; then
 	echo "Booting from MMC 1:1..."
-	sysboot mmc 1:1 any ${scriptaddr} /extlinux/extlinux.conf
+	sysboot mmc 1:1 any
 fi
 
 echo "Fallback to UMS..."

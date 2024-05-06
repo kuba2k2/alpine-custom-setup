@@ -1,6 +1,6 @@
 # Fingbox v1
 
-## Backup the firmware
+## Before you start: backup the firmware
 
 1. First of all - backup the stock firmware using U-Boot that's already installed on the device. You'll need to open it up to find the UART port on the other side of the main PCB.
 2. Plug in any USB flash drive and use U-Boot to dump the eMMC (at least the first 2 GiB to have an usable backup). You can probably find many guides on how to do that; I don't remember the exact steps.
@@ -12,138 +12,96 @@
 
 I'm not providing Snap IDs or the firmware file here - if you own a Fingbox, you can find it yourself.
 
-## Run U-Boot
+---
+
+## Building
+
+Buildroot generates the following outputs in `images/`:
+
+- `bootfs/` - kernel, initramfs, modloop and APK packages for Alpine Linux
+- `bootfs.img` - FAT32 image of the bootfs directory
+- `sdcard.img` - microSD card image with bootfs and U-Boot SPL
+- `u-boot-dtb.img` - U-Boot with DTB, for updating existing installation in `/boot`
+- `u-boot-dtb.bin` - U-Boot with DTB, for running in FEL mode
+- `sunxi-spl.bin` - U-Boot SPL, for running in FEL mode
+
+## Flash the firmware
 
 Enter FEL mode - connect the USB cable while pressing the `UBOOT` button.
 
 Run these commands to flash SPL onto the EMMC and enable UMS mode:
+
 ```bash
 # run SPL
-sunxi-fel spl $WORK/uboot/spl/sunxi-spl.bin
+sunxi-fel spl sunxi-spl.bin
 # run U-Boot Proper
-sunxi-fel write 0x4a000000 $WORK/uboot/u-boot-dtb.bin
+sunxi-fel write 0x4a000000 u-boot-dtb.bin
 # write SPL for flashing
-sunxi-fel write 0x43000000 $WORK/uboot/spl/sunxi-spl.bin
+sunxi-fel write 0x43000000 sunxi-spl.bin
 # write flashing commands
-sunxi-fel write 0x43100000 $WORK/acs/fingbox-v1/fel-spl-ums.env
+sunxi-fel write 0x43100000 fel-spl-ums.env
 # jump to U-Boot
 sunxi-fel exe 0x4a000000
 ```
 
-## Partition the EMMC
-
 The Fingbox should be now visible on your PC as a mass-storage device.
 
-Note: change `/dev/sde` to the UMS device.
+Flash `sdcard.img` to the Fingbox mass-storage device, using e.g. `dd` or `Win32DiskImager`.
 
-- `fdisk /dev/sde`
-- `o` - clear the MBR
-- `n` - new partition
-- `p` - primary
-- `<Enter>` - index 1
-- `<Enter>` - starting sector
-- `+128M` - `boot` partition size
-- `t` - change type
-- `c` - FAT32
-- `a` - mark as active/bootable
-- `n` - new partition
-- `p` - primary
-- `<Enter>` - index 2
-- `<Enter>` - starting sector
-- `<Enter>` - ending sector
-- `w` - write changes
+The Fingbox should now have a MBR partition table with a single 128 MiB FAT32 partition. Put `eeprom_ar9271.bin` extracted before on the boot partition.
 
-Format the boot partition:
-```bash
-partprobe
-mkfs.vfat -n BOOT /dev/sde1
-```
+Reset the board - it should start booting Alpine Linux.
 
-Copy the contents of `boot/` directory to the newly created boot partition.
-
-Put `eeprom_ar9271.bin` extracted before on the boot partition.
-
-## Boot Linux
-
-Reset the board to boot into Alpine Linux. Login as root.
+Connect an UART adapter or HDMI monitor to access the Linux console. Login as root.
 
 ## Enable network connectivity
 
-Refer to [alpine.md -> Hardware/peripherals](../alpine.md#network-using-g_ether-usb-gadget).
+Refer to [network.md](../../docs/network.md). The following steps won't work without a working Internet connection.
 
-## Basic setup
-
-```bash
-# don't initialize network connections; no disks, no configs, no apk cache
-setup-alpine
-# enable community repository
-sed -i '/v3\.\d*\/community/s/^#//' /etc/apk/repositories
-# update apk repos
-apk update
-# install mkfs.ext4
-apk add e2fsprogs
-```
-
-## Format root volume
+To install Wi-Fi EEPROM image (after installing firmware):
 
 ```bash
-mkfs.ext4 -L root /dev/mmcblk0p2	# format the root volume
-mkdir -p /mnt/root					# create a mountpoint
-mount /dev/mmcblk0p2 /mnt/root		# mount the root volume
-```
-
-## Install Wi-Fi drivers
-
-Do this now, so that it gets installed to the disk along with the base system.
-
-```bash
-# install Wi-Fi firmware
-apk add wireless-regdb linux-firmware-ath9k_htc
-# copy Wi-Fi EEPROM image
 cp /media/mmcblk0p1/eeprom_ar9271.bin /lib/firmware/
+```
+
+To reload Wi-Fi drivers after installing firmware:
+
+```bash
+rmmod ath9k_htc && modprobe ath9k_htc
+```
+
+## Create & format root volume
+
+Note: this step installs Linux to the eMMC.
+
+First, create the root volume using `fdisk /dev/mmcblk?`:
+
+- `n` / `p` / `2` / `<Enter>` / `<Enter>` - create a partition taking up the remaining free space
+- `t` / `2` / `83` - set type to Linux (optional, should already be set)
+- `p` - show the partition table
+
+The partition table should now look like this:
+
+```
+??? TBD
+```
+
+Exit `fdisk` and write changes using `w`. If it fails to reread the partition table, reboot the system (remember to configure network again).
+
+Format the root volume:
+
+```bash
+apk add e2fsprogs					# install mkfs.ext4
+mkfs.ext4 -L rootfs /dev/mmcblk?p2	# format the root volume
 ```
 
 ## Install the OS
 
-```bash
-# ignore bootloader updating
-export BOOTLOADER=none
-# actually install the OS to the disk
-setup-disk -m sys -v -s 0 -k firmware-none /mnt/root
-# copy kernel modules
-mkdir -p /mnt/root/lib/modules
-cp -R /lib/modules/`uname -r` /mnt/root/lib/modules/
-# automatically mount the boot partition
-mkdir -p /mnt/root/boot
-echo -e "/dev/mmcblk0p1\t/boot\t\tvfat\tro\t0 0" >> /mnt/root/etc/fstab
-# copy Wi-Fi EEPROM image
-cp /media/mmcblk0p1/eeprom_ar9271.bin /mnt/root/lib/firmware/
-# reboot into the OS
-reboot
-```
+Refer to [install.md](../../docs/install.md).
 
-## Serial console via USB
+Rebooting will boot the installed OS. Next, follow the [post-install guide](../../docs/alpine.md).
 
-Refer to [alpine.md -> Serial console via USB](../alpine.md#serial-console-via-usb).
-
-## Updating the kernel
-
-Compile a new kernel. Grab the `boot/` directory contents from the build. Copy everything to the `/boot` directory on the device.
-
-Update kernel modules on the device:
-
-```bash
-mkdir -p /.modloop/
-mount -o loop /boot/boot/modloop-acs /.modloop/
-rm -rf /lib/modules/`uname -r`
-cp -R /.modloop/modules/* /lib/modules/
-umount /.modloop/
-rmdir /.modloop/
-```
-
-Reboot the device to run the updated kernel.
-
-## Bringing back Fingbox functionality
+## Extra: bringing back Fingbox functionality
 
 A barebones Alpine Linux setup will not do what the Fingbox is supposed to do, which is monitoring the network and reporting various data.
 
