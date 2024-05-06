@@ -15,8 +15,9 @@ config BR2_ROOTFS_SKELETON_ALPINE_VERSION
 
 config BR2_ROOTFS_SKELETON_ALPINE_ARCH
 	string "Architecture"
-	default "armhf" if BR2_ARM_EABIHF
-	default "armv7" if BR2_ARM_EABI
+	default "armv7" if BR2_arm && BR2_ARM_CPU_ARMV7A
+	default "armv7" if BR2_arm && BR2_ARM_FPU_NEON_VFPV4
+	default "armhf" if BR2_arm && BR2_ARM_EABIHF
 	default "UNKNOWN"
 
 config BR2_ROOTFS_SKELETON_ALPINE_FIRMWARE
