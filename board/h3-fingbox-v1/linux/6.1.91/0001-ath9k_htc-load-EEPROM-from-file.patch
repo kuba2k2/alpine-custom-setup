@@ -1,0 +1,65 @@
+From 338e4638bfae965e789b5090853c60e6eeb44f9d Mon Sep 17 00:00:00 2001
+From: root <root@buildhost>
+Date: Fri, 19 Aug 2022 18:43:20 +0200
+Subject: [PATCH] ath9k_htc: load EEPROM from file
+
+---
+ drivers/net/wireless/ath/ath9k/eeprom_4k.c    | 10 +++++++++-
+ drivers/net/wireless/ath/ath9k/htc_drv_init.c | 20 +++++++++----------
+ 2 files changed, 19 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/net/wireless/ath/ath9k/eeprom_4k.c b/drivers/net/wireless/ath/ath9k/eeprom_4k.c
+index e8c2cc03be0c..3c3586e30240 100644
+--- a/drivers/net/wireless/ath/ath9k/eeprom_4k.c
++++ b/drivers/net/wireless/ath/ath9k/eeprom_4k.c
+@@ -51,9 +51,15 @@ static bool __ath9k_hw_4k_fill_eeprom(struct ath_hw *ah)
+ 
+ static bool __ath9k_hw_usb_4k_fill_eeprom(struct ath_hw *ah)
+ {
++	struct file *filp = filp_open("/lib/firmware/eeprom_ar9271.bin", O_RDONLY, 0);
+ 	u16 *eep_data = (u16 *)&ah->eeprom.map4k;
+ 
+-	ath9k_hw_usb_gen_fill_eeprom(ah, eep_data, 64, SIZE_EEPROM_4K);
++	if (IS_ERR(filp))
++		return false;
++
++	vfs_llseek(filp, 64 * sizeof(u16), SEEK_SET);
++	kernel_read(filp, (void *)eep_data, SIZE_EEPROM_4K * sizeof(u16), &filp->f_pos);
++	filp_close(filp, NULL);
+ 
+ 	return true;
+ }
+diff --git a/drivers/net/wireless/ath/ath9k/htc_drv_init.c b/drivers/net/wireless/ath/ath9k/htc_drv_init.c
+index 07ac88fb1c57..3caaddd3eb1b 100644
+--- a/drivers/net/wireless/ath/ath9k/htc_drv_init.c
++++ b/drivers/net/wireless/ath/ath9k/htc_drv_init.c
+@@ -518,19 +518,17 @@ static void ath_usb_read_cachesize(struct ath_common *common, int *csz)
+ 
+ static bool ath_usb_eeprom_read(struct ath_common *common, u32 off, u16 *data)
+ {
+-	struct ath_hw *ah = (struct ath_hw *) common->ah;
++	struct file *filp = filp_open("/lib/firmware/eeprom_ar9271.bin", O_RDONLY, 0);
++	u16 value;
+ 
+-	(void)REG_READ(ah, AR5416_EEPROM_OFFSET + (off << AR5416_EEPROM_S));
+-
+-	if (!ath9k_hw_wait(ah,
+-			   AR_EEPROM_STATUS_DATA,
+-			   AR_EEPROM_STATUS_DATA_BUSY |
+-			   AR_EEPROM_STATUS_DATA_PROT_ACCESS, 0,
+-			   AH_WAIT_TIMEOUT))
++	if (IS_ERR(filp))
+ 		return false;
+ 
+-	*data = MS(REG_READ(ah, AR_EEPROM_STATUS_DATA),
+-		   AR_EEPROM_STATUS_DATA_VAL);
++	vfs_llseek(filp, off * sizeof(u16), SEEK_SET);
++	kernel_read(filp, (void *)&value, sizeof(u16), &filp->f_pos);
++	filp_close(filp, NULL);
++
++	*data = value;
+ 
+ 	return true;
+ }
+-- 
+2.25.1
