@@ -6,9 +6,10 @@ Provided that you have already created and formatted an EXT4 partition labelled 
 
 ```bash
 # NOTE: don't skip interface configuration - otherwise the routing table will be cleared
-# - the recommended NTP client is "openntpd"
+# - the recommended NTP client is "busybox"
 # - the recommended SSH server is "dropbear"
-# - don't configure install disks,
+# - enable community repository when asked
+# - don't configure install disks
 # - don't store configs
 # - don't use apk cache
 setup-alpine

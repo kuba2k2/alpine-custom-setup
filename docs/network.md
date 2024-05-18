@@ -1,5 +1,16 @@
 # Network connectivity
 
+**IMPORTANT:** make sure to also run:
+
+```bash
+setup-ntp busybox
+setup-apkrepos -c -1
+```
+
+after setting up the network connection.
+
+---
+
 ## Firmware installation
 
 If the device requires special Wi-Fi firmware, it should be available in the `bootfs` volume:

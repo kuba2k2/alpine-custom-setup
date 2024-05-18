@@ -4,9 +4,9 @@
 
 ```bash
 # enable community repository
-sed -i '/v3\.\d*\/community/s/^#//' /etc/apk/repositories
-# update apk repos
-apk update
+setup-apkrepos -c -1
+# make it cleaner
+cat /etc/apk/repositories | sort | uniq | tee /etc/apk/repositories
 
 # install sudo
 apk add sudo
@@ -60,6 +60,7 @@ rc-update add dropbear
 
 # install several other useful utilities
 apk add mc htop lsblk
+apk add btop
 # Midnight Commander somehow overrides custom prompt from /etc/profile.d
 # add to each user's .bashrc
 echo source /etc/profile.d/color_prompt.sh >> ~/.bashrc
@@ -71,7 +72,8 @@ rc-update add avahi-daemon
 
 # set noatime for /
 sed -i s/rw,relatime/rw,noatime/g /etc/fstab
-# auto-mount /boot
+
+# auto-mount /boot (only for SD/eMMC, not for NAND)
 mkdir -p /boot
 echo "LABEL=bootfs /boot vfat rw,noatime 0 0" >> /etc/fstab
 ```
@@ -89,7 +91,7 @@ export LANG=en_US.UTF-8
 export LC_COLLATE=en_US
 export HISTCONTROL=ignoreboth:erasedups
 export EDITOR=/usr/bin/vim
-export TERM=xterm
+export TERM=xterm-color
 EOF
 source /etc/profile.d/acs.sh
 ```

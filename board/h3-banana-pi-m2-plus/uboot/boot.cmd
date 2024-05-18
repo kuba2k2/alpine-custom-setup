@@ -14,6 +14,11 @@ else
 	echo "Root filesystem not found!"
 fi
 
+if test -n ${fel_booted} && test -n ${fel_scriptaddr}; then
+	echo "Booting from FEL..."
+	source ${fel_scriptaddr}
+fi
+
 if test -e mmc 0:1 ${bootfile}; then
 	echo "Booting from MMC 0:1..."
 	sysboot mmc 0:1 any
