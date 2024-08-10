@@ -142,7 +142,6 @@ cat > /usr/sbin/update-modloop << EOF
 echo "Updating modloop from \$1"
 mkdir -p /.modloop/
 mount -o loop \$1 /.modloop/
-rm -rf /lib/modules/\`uname -r\`
 cp -R /.modloop/modules/* /lib/modules/
 umount /.modloop/
 rmdir /.modloop/

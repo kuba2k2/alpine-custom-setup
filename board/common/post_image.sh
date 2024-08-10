@@ -22,7 +22,8 @@ if [ -f "${BOOTFS_DIR}/.alpine-release" ]; then
 else
 	export VERSION=`date +%y.%-m.%-d`
 fi
-export LINUX=`ls -1 "${TARGET_DIR}/lib/modules/" | tr -dc "0-9."`
+export UNAME=`ls -1 "${TARGET_DIR}/lib/modules/"`
+export LINUX=`echo ${UNAME} | tr -dc "0-9."`
 export VERSION_NAME="alpine${VERSION}-linux${LINUX}"
 
 #
