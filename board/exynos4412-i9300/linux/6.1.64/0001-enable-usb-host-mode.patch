@@ -1,0 +1,6 @@
+--- a/arch/arm/boot/dts/exynos4412-midas.dtsi
++++ b/arch/arm/boot/dts/exynos4412-midas.dtsi
+539c539
+< 	dr_mode = "peripheral";
+---
+> 	dr_mode = "host";

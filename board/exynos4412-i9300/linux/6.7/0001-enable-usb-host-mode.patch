@@ -1,0 +1,6 @@
+--- a/arch/arm/boot/dts/exynos4412-midas.dtsi
++++ b/arch/arm/boot/dts/exynos4412-midas.dtsi
+588c588
+< 	dr_mode = "otg";
+---
+> 	dr_mode = "host";

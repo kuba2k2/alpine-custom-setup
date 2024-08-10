@@ -1,0 +1,12 @@
+--- a/include/configs/midas.h
++++ b/include/configs/midas.h
+67c67
+< #define CONFIG_EXTRA_ENV_SETTINGS \
+---
+> #define EXTRA_ENV_SETTINGS_OLD \
+97a98,102
+> 
+> #define CONFIG_EXTRA_ENV_SETTINGS \
+> 	"autoboot=if load mmc 1:1 0x50000000 /boot.scr || load mmc 0:8 0x50000000 /boot.scr; then source 0x50000000; else ums 0 mmc 0; fi\0" \
+> 	"recoveryboot=ums 0 mmc 0\0" \
+> 	"fastboot=fastboot 0; run autoboot\0" 
