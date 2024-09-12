@@ -78,7 +78,7 @@ Connect the Galaxy S3 to your PC - it should be now visible as a mass-storage de
 - `d` / `8` - delete `CACHE` partition (1 GiB)
 - `n` / `8` / `<Enter>` / `+128M` - create a new 128 MiB partition at index 8
 - `t` / `8` / `11` - change type to `Microsoft basic data`
-- `n` / `8` / `<Enter>` / `<Enter>` - create a new partition at index 9
+- `n` / `9` / `<Enter>` / `<Enter>` - create a new partition at index 9
 - `x` - enter Expert mode
 - `n` / `8` / `bootfs` - change label to `bootfs`
 - `n` / `9` / `rootfs` - change label to `rootfs`

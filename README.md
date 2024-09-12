@@ -10,16 +10,17 @@ Also see: [alpine-home-assistant](https://github.com/kuba2k2/alpine-home-assista
 2. Install Buildroot. Then, execute the following command in Buildroot's directory:
 
 ```bash
-make BR2_EXTERNAL=/work/acs <target>
+make BR2_EXTERNAL=/work/acs <config>
 ```
 
-The `<target>` can be one of:
+The `<config>` can be one of:
 
-- [`a10-bc1077`](board/a10-bc1077/README.md) - BC1077 (MID06N/Inet1/Protab2XXL)
-- [`exynos4412-i9300`](board/exynos4412-i9300/README.md) - Samsung Galaxy S3 (GT-I9300)
-- [`h3-banana-pi-m2-plus`](board/h3-banana-pi-m2-plus/README.md) - Banana Pi M2+
-- [`h3-fingbox-v1`](board/h3-fingbox-v1/README.md) - Fingbox v1
-- [`rk2926-tac-70072`](board/rk2926-tac-70072/README.md) - Denver TAC-70072 Rockchip RK2926 Tablet
+- [`a10_bc1077_defconfig`](board/a10-bc1077/README.md) - BC1077 (MID06N/Inet1/Protab2XXL)
+- [`exynos4412_i9300_smdk_defconfig`](board/exynos4412-i9300/README.md) - Samsung Galaxy S3 (GT-I9300)
+- [`h3_banana_pi_m2_plus_defconfig`](board/h3-banana-pi-m2-plus/README.md) - Banana Pi M2+
+- [`h3_fingbox_v1_defconfig`](board/h3-fingbox-v1/README.md) - Fingbox v1
+- [`rk2926_tac_70072_defconfig`](board/rk2926-tac-70072/README.md) - Denver TAC-70072 Rockchip RK2926 Tablet
+- [`u8500_golden_defconfig`](board/u8500-golden/README.md) - Samsung Galaxy S3 mini (GT-I8190N)
 
 3. Run `make all` to compile all packages. Also, make sure to run `make clean` before configuring a different target.
 4. Go to the chosen board's README file to follow the installation guide.
