@@ -163,3 +163,11 @@ chmod +x /etc/init.d/fingbox-agent
 12. You can exit the root shell now.
 13. Start the service: `sudo service fingbox-agent start`
 14. If you want to view Fingbox Agent logs, run `sudo tail -F /usr/share/fingbox-agent/data-rw/log/fingbox-agent.log`
+
+## Extra: USB Host on micro-B port
+
+To enable USB Host on the micro-B port of the Fingbox, add the following line to `/boot/extlinux/extlinux.conf`:
+
+```
+FDTOVERLAYS /boot/dtbs-acs/sunxi-h3-usb0-host.dtbo
+```
