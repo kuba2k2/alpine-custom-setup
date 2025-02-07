@@ -6,7 +6,7 @@
 # enable community repository
 setup-apkrepos -c -1
 # make it cleaner
-cat /etc/apk/repositories | sort | uniq | tee /etc/apk/repositories
+sort -u /etc/apk/repositories -o /etc/apk/repositories
 
 # install sudo
 apk add sudo
@@ -22,7 +22,7 @@ echo 'Defaults env_keep += "EDITOR"' > /etc/sudoers.d/env-editor
 passwd -d root
 
 # replace busybox
-apk add util-linux usbutils coreutils binutils findutils grep iproute2 wget less diffutils blkid
+apk add util-linux usbutils coreutils binutils findutils grep iproute2 wget less diffutils blkid musl-locales
 # add vim
 apk add vim
 
@@ -30,6 +30,7 @@ apk add vim
 apk add bash bash-completion
 # replace each user's shell
 sed -i s#/bin/ash#/bin/bash#g /etc/passwd
+sed -i s#/bin/sh#/bin/bash#g /etc/passwd
 # enable color prompt
 ln -s /etc/profile.d/color_prompt.sh.disabled /etc/profile.d/color_prompt.sh
 

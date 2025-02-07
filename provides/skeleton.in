@@ -7,11 +7,11 @@ if BR2_ROOTFS_SKELETON_ALPINE
 
 config BR2_ROOTFS_SKELETON_ALPINE_RELEASE
 	string "Release number (3.x)"
-	default "3.19"
+	default "3.21"
 
 config BR2_ROOTFS_SKELETON_ALPINE_VERSION
 	string "Version number (3.x.y)"
-	default "3.19.0"
+	default "3.21.0"
 
 config BR2_ROOTFS_SKELETON_ALPINE_ARCH
 	string "Architecture"
