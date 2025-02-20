@@ -38,6 +38,7 @@ export VERSION_NAME="alpine${VERSION}-linux${LINUX}"
 MESSAGE "Copying Linux kernel"
 if compgen -G "${BINARIES_DIR}/zImage.*" > /dev/null; then
 	cat ${BINARIES_DIR}/zImage.* > "${BOOT_DIR}/vmlinuz-acs"
+	export KERNEL_APPENDED_DTB=true
 elif [ -f "${BINARIES_DIR}/zImage" ]; then
 	cat "${BINARIES_DIR}/zImage" > "${BOOT_DIR}/vmlinuz-acs"
 else
@@ -52,6 +53,7 @@ MESSAGE "Copying Device Tree Blobs"
 if compgen -G "${BINARIES_DIR}/*.dtb" > /dev/null; then
 	mkdir -p "${BOOT_DIR}/dtbs-acs/"
 	cp ${BINARIES_DIR}/*.dtb "${BOOT_DIR}/dtbs-acs/"
+	export DTB=`ls -1 ${BINARIES_DIR}/*.dtb | head -n1`
 
 	if compgen -G "${BOARD_DIR}/overlays/*.dts" > /dev/null; then
 		MESSAGE "Compiling Device Tree Overlays"
