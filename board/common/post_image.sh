@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-TERM_BOLD=`tput smso 2>/dev/null`
-TERM_RESET=`tput rmso 2>/dev/null`
+TERM_BOLD=`tput smso || true`
+TERM_RESET=`tput rmso || true`
 
 function MESSAGE {
 	echo "$TERM_BOLD>>> [ACS] $1$TERM_RESET"
