@@ -1,0 +1,14 @@
+config BR2_PACKAGE_HOST_GCC_ARM_NONE_EABI
+bool "host gcc-arm-none-eabi"
+	help
+	  xPack GNU Arm Embedded GCC
+
+	  https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack
+
+if BR2_PACKAGE_HOST_GCC_ARM_NONE_EABI
+
+config BR2_PACKAGE_HOST_GCC_ARM_NONE_EABI_VERSION
+	string "xPack GNU Arm Embedded GCC Version"
+	default "10.3.1-2.2"
+
+endif
