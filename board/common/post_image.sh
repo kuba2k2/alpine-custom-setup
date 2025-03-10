@@ -52,6 +52,7 @@ export KERNEL="${BOOT_DIR}/vmlinuz-acs"
 MESSAGE "Copying Device Tree Blobs"
 if compgen -G "${BINARIES_DIR}/*.dtb" > /dev/null; then
 	mkdir -p "${BOOT_DIR}/dtbs-acs/"
+	rm -f ${BOOT_DIR}/dtbs-acs/*.dtb ${BOOT_DIR}/dtbs-acs/*.dtbo
 	cp ${BINARIES_DIR}/*.dtb "${BOOT_DIR}/dtbs-acs/"
 	export DTB=`ls -1 ${BINARIES_DIR}/*.dtb | head -n1`
 
