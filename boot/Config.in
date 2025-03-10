@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_ACS_PATH/boot/awboot/Config.in"

@@ -1,3 +1,4 @@
+source "$BR2_EXTERNAL_ACS_PATH/boot/Config.in"
 source "$BR2_EXTERNAL_ACS_PATH/toolchain/Config.in"
 source "$BR2_EXTERNAL_ACS_PATH/package/gcc-arm-none-eabi/Config.in.host"
 source "$BR2_EXTERNAL_ACS_PATH/package/rockchip-mkbootimg/Config.in.host"

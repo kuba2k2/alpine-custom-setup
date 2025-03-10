@@ -1,0 +1,72 @@
+config BR2_TARGET_AWBOOT
+	bool "AWBoot"
+	help
+	  small linux bootloader for Allwinner T113-S3 and V851s
+
+	  https://github.com/szemzoa/awboot
+
+if BR2_TARGET_AWBOOT
+
+config BR2_TARGET_AWBOOT_SOURCE
+	string "AWBoot Source"
+	default "kuba2k2/awboot"
+
+config BR2_TARGET_AWBOOT_VERSION
+	string "AWBoot Version"
+	default "9dd108164a107975f8a76b75c335be8d3f488920"
+
+menu "AWBoot binary format"
+
+config BR2_TARGET_AWBOOT_FORMAT_FEL
+	bool "awboot-<board>-fel.bin"
+	default y
+config BR2_TARGET_AWBOOT_FORMAT_SPI
+	bool "awboot-<board>-boot-spi.bin"
+	default y
+config BR2_TARGET_AWBOOT_FORMAT_SD
+	bool "awboot-<board>-boot-sd.bin"
+config BR2_TARGET_AWBOOT_FORMAT_ALL
+	bool "awboot-<board>-boot-all.bin"
+
+config BR2_TARGET_AWBOOT_FORMAT_CUSTOM
+	bool "Custom (specify below)"
+
+config BR2_TARGET_AWBOOT_FORMAT_CUSTOM_NAME
+	string "AWBoot binary format: custom names"
+	depends on BR2_TARGET_AWBOOT_FORMAT_CUSTOM
+	help
+	  Use space to separate multiple names.
+	  Note: specified file names must not contain the board name.
+
+	  E.g. "awboot-fel.bin", not "awboot-myboard-fel.bin".
+
+endmenu
+
+choice
+	prompt "AWBoot board name"
+	default BR2_TARGET_AWBOOT_BOARD_MANGOPI_DUAL
+
+config BR2_TARGET_AWBOOT_BOARD_MANGOPI_DUAL
+	bool "mangopi-dual"
+
+config BR2_TARGET_AWBOOT_BOARD_YUZUKI_LIZARD
+	bool "yuzuki-lizard"
+
+config BR2_TARGET_AWBOOT_BOARD_CUSTOM
+	bool "Custom/out-of-tree"
+
+endchoice
+
+config BR2_TARGET_AWBOOT_BOARD_CUSTOM_PATH
+	string "AWBoot board directory path"
+	depends on BR2_TARGET_AWBOOT_BOARD_CUSTOM
+	default "$(BR2_EXTERNAL_ACS_PATH)/board/myboardname/awboot"
+	help
+	  Path to the directory containing board.h and board.c files.
+
+config BR2_TARGET_AWBOOT_BOARD_CUSTOM_NAME
+	string "AWBoot board name"
+	depends on BR2_TARGET_AWBOOT_BOARD_CUSTOM
+	default "myboardname"
+
+endif
