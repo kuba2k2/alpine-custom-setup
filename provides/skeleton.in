@@ -11,13 +11,14 @@ config BR2_ROOTFS_SKELETON_ALPINE_RELEASE
 
 config BR2_ROOTFS_SKELETON_ALPINE_VERSION
 	string "Version number (3.x.y)"
-	default "3.21.0"
+	default "3.21.3"
 
 config BR2_ROOTFS_SKELETON_ALPINE_ARCH
 	string "Architecture"
 	default "armv7" if BR2_arm && BR2_ARM_CPU_ARMV7A
 	default "armv7" if BR2_arm && BR2_ARM_FPU_NEON_VFPV4
 	default "armhf" if BR2_arm && BR2_ARM_EABIHF
+	default "riscv64" if BR2_riscv
 	default "UNKNOWN"
 
 config BR2_ROOTFS_SKELETON_ALPINE_FIRMWARE

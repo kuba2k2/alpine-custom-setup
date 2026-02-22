@@ -17,7 +17,19 @@ SKELETON_ALPINE_ARCH = $(call qstrip,$(BR2_ROOTFS_SKELETON_ALPINE_ARCH))
 
 SKELETON_ALPINE_MIRROR = https://dl-cdn.alpinelinux.org/alpine/v$(SKELETON_ALPINE_RELEASE)
 SKELETON_ALPINE_SITE = $(SKELETON_ALPINE_MIRROR)/releases/$(SKELETON_ALPINE_ARCH)
-SKELETON_ALPINE_SOURCE = alpine-rpi-$(SKELETON_ALPINE_VERSION)-$(SKELETON_ALPINE_ARCH).tar.gz
+
+ifeq ($(SKELETON_ALPINE_ARCH),armv7)
+	SKELETON_ALPINE_SOURCE = alpine-rpi-$(SKELETON_ALPINE_VERSION)-armv7.tar.gz
+	SKELETON_ALPINE_DIST = rpi
+else ifeq ($(SKELETON_ALPINE_ARCH),armhf)
+	SKELETON_ALPINE_SOURCE = alpine-rpi-$(SKELETON_ALPINE_VERSION)-armhf.tar.gz
+	SKELETON_ALPINE_DIST = rpi
+else ifeq ($(SKELETON_ALPINE_ARCH),riscv64)
+	SKELETON_ALPINE_SOURCE = alpine-uboot-$(SKELETON_ALPINE_VERSION)-riscv64.tar.gz
+	SKELETON_ALPINE_DIST = lts
+else
+	$(error Architecture $(SKELETON_ALPINE_ARCH) is not supported)
+endif
 
 # SKELETON_ALPINE_DEPENDENCIES += host-xorriso
 
@@ -33,10 +45,10 @@ define SKELETON_ALPINE_EXTRACT_CMDS
 	tar -xz \
 		-C $(@D)/ \
 		-f $(SKELETON_ALPINE_DL_DIR)/$(SKELETON_ALPINE_SOURCE) \
-		./boot/initramfs-rpi \
+		./boot/initramfs-$(SKELETON_ALPINE_DIST) \
 		./apks/ \
 		./.alpine-release
-	gzip -dc $(@D)/boot/initramfs-rpi | cpio -i -u -D $(@D)/initramfs/
+	gzip -dc $(@D)/boot/initramfs-$(SKELETON_ALPINE_DIST) | cpio -i -u -D $(@D)/initramfs/
 	rm -f $(@D)/initramfs/var/cache/misc/*modloop*.SIGN.RSA.*.pub
 	rm -rf $(@D)/initramfs/lib/modules/*-rpi
 	rm -rf $(@D)/initramfs/lib/modules/*-lts

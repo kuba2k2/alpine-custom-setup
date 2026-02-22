@@ -41,6 +41,10 @@ if compgen -G "${BINARIES_DIR}/zImage.*" > /dev/null; then
 	export KERNEL_APPENDED_DTB=true
 elif [ -f "${BINARIES_DIR}/zImage" ]; then
 	cat "${BINARIES_DIR}/zImage" > "${BOOT_DIR}/vmlinuz-acs"
+elif [ -f "${BINARIES_DIR}/Image.gz" ]; then
+	cat "${BINARIES_DIR}/Image.gz" > "${BOOT_DIR}/vmlinuz-acs"
+elif [ -f "${BINARIES_DIR}/Image" ]; then
+	cat "${BINARIES_DIR}/Image" > "${BOOT_DIR}/vmlinuz-acs"
 else
 	echo "Missing zImage - please compile the kernel first!"
 	exit 1
