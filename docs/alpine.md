@@ -25,6 +25,8 @@ passwd -d root
 apk add util-linux usbutils coreutils binutils findutils grep iproute2 wget less diffutils blkid musl-locales
 # add vim
 apk add vim
+# install curl
+apk add curl
 
 # install bash
 apk add bash bash-completion
@@ -35,7 +37,6 @@ sed -i s#/bin/sh#/bin/bash#g /etc/passwd
 ln -s /etc/profile.d/color_prompt.sh.disabled /etc/profile.d/color_prompt.sh
 
 # install duf
-apk add curl
 curl -s https://api.github.com/repos/muesli/duf/releases/latest \
 	| grep "browser_download_url.*$(apk --print-arch)\.apk" \
 	| cut -d : -f 2,3 \
@@ -60,7 +61,7 @@ service dropbear start
 rc-update add dropbear
 
 # install several other useful utilities
-apk add mc htop lsblk
+apk add mc htop lsblk fastfetch
 apk add btop
 # Midnight Commander somehow overrides custom prompt from /etc/profile.d
 # add to each user's .bashrc

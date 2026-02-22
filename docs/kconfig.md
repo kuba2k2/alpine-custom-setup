@@ -2,11 +2,69 @@
 
 ## Required options
 
-- `CONFIG_SQUASHFS`
-- `CONFIG_BLK_DEV_LOOP`
+- `CONFIG_SQUASHFS=y`
+- `CONFIG_SQUASHFS_XZ=y`
+- `CONFIG_BLK_DEV_INITRD=y`
+- `CONFIG_BLK_DEV_LOOP=y`
+- `CONFIG_RD_GZIP=y`
 
 ## OpenRC init errors
 
 - `net.ipv4.tcp_syncookies` -> `CONFIG_SYN_COOKIES`
 - `kernel.unprivileged_bpf_disabled` -> `CONFIG_BPF_SYSCALL`
 - `/proc/sys/kernel/hotplug` -> `CONFIG_CPU_HOTPLUG_STATE_CONTROL`
+
+# U-Boot configuration
+
+## Required options
+
+- `CONFIG_BOOTCOMMAND="load mmc 0:1 ${scriptaddr} /boot.scr; source ${scriptaddr}"`
+- `CONFIG_PREBOOT=""`
+- `CONFIG_LEGACY_IMAGE_FORMAT=y`
+- `CONFIG_CMD_SYSBOOT=y`
+- `CONFIG_BOOTFILE="/extlinux/extlinux.conf"`
+- `CONFIG_CMD_EXT4=y`
+
+## Miscellaneous options
+
+```shell
+# Size tweaking
+CONFIG_SYS_LONGHELP=n
+CONFIG_SPL_POWER=n
+CONFIG_SMBIOS=n
+CONFIG_LZ4=n
+CONFIG_LZMA=n
+# Unused commands
+CONFIG_CMD_BDI=n
+CONFIG_CMD_CONSOLE=n
+CONFIG_CMD_CPU=n
+CONFIG_CMD_GPT=n
+CONFIG_CMD_BOOTEFI=n
+CONFIG_CMD_ELF=n
+CONFIG_CMD_XIMG=n
+CONFIG_CMD_EDITENV=n
+CONFIG_CMD_UNZIP=n
+CONFIG_CMD_UNLZ4=n
+CONFIG_CMD_LZMADEC=n
+CONFIG_CMD_FLASH=n
+CONFIG_CMD_LOADB=n
+CONFIG_CMD_LOADS=n
+CONFIG_CMD_EFICONFIG=n
+CONFIG_CMD_CYCLIC=n
+CONFIG_RANDOM_UUID=n
+# Unused boot methods
+CONFIG_BOOTM_EFI=n
+CONFIG_BOOTM_NETBSD=n
+CONFIG_BOOTM_PLAN9=n
+CONFIG_BOOTM_RTEMS=n
+CONFIG_BOOTM_VXWORKS=n
+CONFIG_BOOTSTD=n
+CONFIG_DISTRO_DEFAULTS=n
+# Unused filesystems
+CONFIG_CMD_EXT2=n
+CONFIG_FS_EXT4=n
+CONFIG_EFI_PARTITION=n
+CONFIG_ISO_PARTITION=n
+# Unused drivers
+CONFIG_NET=n
+```

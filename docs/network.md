@@ -16,7 +16,7 @@ after setting up the network connection.
 If the device requires special Wi-Fi firmware, it should be available in the `bootfs` volume:
 
 ```bash
-apk add --force-non-repository /media/*/apks/*.apk
+apk add --force-non-repository --allow-untrusted /media/*/apks/linux-firmware-*.apk
 ```
 
 After this, you will probably need to reload the driver modules (`rmmod` and `modprobe`). Use `lsmod` to figure out which module needs to be reloaded.
