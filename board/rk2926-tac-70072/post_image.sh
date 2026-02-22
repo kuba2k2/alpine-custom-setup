@@ -19,4 +19,4 @@ cat "${INIT}.orig" | tr "\n" "\r" | sed "s#${LINE}\r\r#${LINE}\r${INSMOD}\r#gm" 
 rm "${INIT}.orig"
 
 . ${BR2_EXTERNAL_ACS_PATH}/board/common/post_image.sh $*
-. ${BR2_EXTERNAL_ACS_PATH}/board/common-rockchip/post_image.sh $* -rk28 "rk2926-tac-70072"
+. ${BR2_EXTERNAL_ACS_PATH}/board/rk2926-tac-70072/gen_bootimg.sh $* -rk28 "rk2926-tac-70072"
