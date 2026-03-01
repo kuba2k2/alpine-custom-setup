@@ -68,6 +68,12 @@ apk add btop
 echo source /etc/profile.d/color_prompt.sh >> ~/.bashrc
 ls -1 /home | xargs -I{} bash -c "echo source /etc/profile.d/color_prompt.sh >> /home/{}/.bashrc"
 
+# disable mc's built-in editor in favor of vim
+mkdir -p ~/.config/mc/
+echo -e "[Midnight-Commander]\nuse_internal_edit=false" >> ~/.config/mc/ini
+# use a nicer color skin
+echo -e "[Midnight-Commander]\nskin=modarin256root-defbg" >> ~/.config/mc/ini
+
 # support mDNS discovery
 apk add avahi
 rc-update add avahi-daemon

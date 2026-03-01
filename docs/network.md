@@ -7,7 +7,7 @@ setup-ntp busybox
 setup-apkrepos -c -1
 ```
 
-after setting up the network connection.
+**after** setting up the network connection.
 
 ---
 
@@ -21,9 +21,9 @@ apk add --force-non-repository --allow-untrusted /media/*/apks/linux-firmware-*.
 
 After this, you will probably need to reload the driver modules (`rmmod` and `modprobe`). Use `lsmod` to figure out which module needs to be reloaded.
 
-## Using setup-alpine
+## Using setup-interfaces
 
-If the Wi-Fi interface is detected after installing firmware, use `setup-interfaces -r` to scan for networks and connect. The `-r` parameter will restart `networking`, which enables DHCP too.
+If the Wi-Fi interface is detected after installing firmware (or if using Ethernet), use `setup-interfaces -r` to scan for networks and connect. The `-r` parameter will restart `networking`, which enables DHCP too.
 
 ## Using wpa_supplicant
 
