@@ -1,6 +1,7 @@
 echo "Serial number:	${serial#}"
 
 setenv bootargs "console=ttyS0,115200"
+setenv fdtfile "sun4i-a10-bc1077.dtb"
 
 if test -e ubi ubi0:root /bin/sh; then
 	echo "Found root filesystem on UBI"
@@ -37,5 +38,5 @@ if test -e mmc 1:1 ${bootfile}; then
 	sysboot mmc 1:1 any
 fi
 
-echo "Fallback to UMS..."
-ums 0 mmc 1
+echo "Fallback to UMS on MMC 1..."
+ums 0 mmc 1:0

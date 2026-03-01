@@ -13,7 +13,11 @@ led red off
 led green off
 led blue off
 
-if test -e mmc 0:9 /bin/sh; then
+if test -e mmc 1:2 /bin/sh; then
+	fsuuid mmc 1:2 rootuuid
+	echo "Found root filesystem on MMC 1:2 with UUID=${rootuuid}"
+	setenv bootargs "${bootargs} root=UUID=${rootuuid}"
+elif test -e mmc 0:9 /bin/sh; then
 	fsuuid mmc 0:9 rootuuid
 	echo "Found root filesystem on MMC 0:9 with UUID=${rootuuid}"
 	setenv bootargs "${bootargs} root=UUID=${rootuuid}"
@@ -34,6 +38,6 @@ if test -e mmc 0:8 /extlinux/extlinux.conf; then
 	sysboot mmc 0:8 any ${scriptaddr} /extlinux/extlinux.conf
 fi
 
-echo "Fallback to UMS..."
+echo "Fallback to UMS on MMC 0..."
 led red on
-ums 0 mmc 0
+ums 0 mmc 0:0

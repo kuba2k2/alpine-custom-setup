@@ -54,6 +54,7 @@ echo "MAC Address wlan0: ${wlanaddr}"
 echo "MAC Address usb0:  ${usbaddr}"
 
 setenv bootargs "console=ttyS0,115200 ath9k_hw.hwaddr=${wlanaddr}"
+setenv fdtfile "sun8i-h3-fingbox-v1.dtb"
 
 if test -e mmc 1:2 /bin/sh; then
 	fsuuid mmc 1:2 rootuuid
@@ -73,5 +74,5 @@ if test -e mmc 1:1 ${bootfile}; then
 	sysboot mmc 1:1 any
 fi
 
-echo "Fallback to UMS..."
-ums 0 mmc 1
+echo "Fallback to UMS on MMC 1..."
+ums 0 mmc 1:0

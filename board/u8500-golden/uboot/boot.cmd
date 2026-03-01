@@ -9,7 +9,11 @@ echo "Serial number:     ${serial#}"
 setenv bootargs ""
 setenv fdtfile "ste-ux500-samsung-golden.dtb"
 
-if test -e mmc 0:17 /bin/sh; then
+if test -e mmc 1:2 /bin/sh; then
+	fsuuid mmc 1:2 rootuuid
+	echo "Found root filesystem on MMC 1:2 with UUID=${rootuuid}"
+	setenv bootargs "${bootargs} root=UUID=${rootuuid}"
+elif test -e mmc 0:17 /bin/sh; then
 	fsuuid mmc 0:17 rootuuid
 	echo "Found root filesystem on MMC 0:17 with UUID=${rootuuid}"
 	setenv bootargs "${bootargs} root=UUID=${rootuuid}"
@@ -27,5 +31,5 @@ if test -e mmc 0:16 /extlinux/extlinux.conf; then
 	sysboot mmc 0:16 any
 fi
 
-echo "Fallback to UMS..."
-ums 0 mmc 0
+echo "Fallback to UMS on MMC 0..."
+ums 0 mmc 0:0

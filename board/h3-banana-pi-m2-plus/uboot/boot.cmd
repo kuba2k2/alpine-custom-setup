@@ -1,6 +1,7 @@
 echo "Serial number:	${serial#}"
 
 setenv bootargs "console=ttyS0,115200"
+setenv fdtfile "sun8i-h3-bananapi-m2-plus.dtb"
 
 if test -e mmc 0:2 /bin/sh; then
 	fsuuid mmc 0:2 rootuuid
@@ -29,5 +30,5 @@ if test -e mmc 1:1 ${bootfile}; then
 	sysboot mmc 1:1 any
 fi
 
-echo "Fallback to UMS..."
-ums 0 mmc 1
+echo "Fallback to UMS on MMC 1..."
+ums 0 mmc 1:0
