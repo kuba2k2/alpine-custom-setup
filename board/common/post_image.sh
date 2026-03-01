@@ -78,8 +78,11 @@ fi
 #
 
 if [ -f "${BINARIES_DIR}/u-boot-dtb.img" ]; then
-	MESSAGE "Copying U-Boot with DTB"
+	MESSAGE "Copying U-Boot with DTB (img)"
 	cp "${BINARIES_DIR}/u-boot-dtb.img" "${BOOTFS_DIR}/"
+elif [ -f "${BINARIES_DIR}/u-boot-dtb.bin" ]; then
+	MESSAGE "Copying U-Boot with DTB (bin)"
+	cp "${BINARIES_DIR}/u-boot-dtb.bin" "${BOOTFS_DIR}/"
 fi
 
 #
@@ -125,6 +128,9 @@ if [ -f "${TARGET_DIR}/sbin/apk" ]; then
 	cp "${COMMON_DIR}/alpine.apkovl.tar" "${BOOTFS_DIR}/"
 	if [ -d "${BOARD_DIR}/apkovl/" ]; then
 		tar -rf "${BOOTFS_DIR}/alpine.apkovl.tar" -C "${BOARD_DIR}/apkovl/" .
+	fi
+	if [ -d "${BINARIES_DIR}/apkovl/" ]; then
+		tar -rf "${BOOTFS_DIR}/alpine.apkovl.tar" -C "${BINARIES_DIR}/apkovl/" .
 	fi
 	rm -f "${BOOTFS_DIR}/alpine.apkovl.tar.gz"
 	gzip "${BOOTFS_DIR}/alpine.apkovl.tar"
