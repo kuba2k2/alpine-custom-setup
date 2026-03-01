@@ -56,6 +56,9 @@ define SKELETON_ALPINE_EXTRACT_CMDS
 	rm -rf $(@D)/initramfs/lib/modules/*-rpi
 	rm -rf $(@D)/initramfs/lib/modules/*-lts
 	rm -rf $(@D)/initramfs/lib/firmware/*
+	rm -rf $(@D)/initramfs/usr/lib/modules/*-rpi
+	rm -rf $(@D)/initramfs/usr/lib/modules/*-lts
+	rm -rf $(@D)/initramfs/usr/lib/firmware/*
 endef
 
 define SKELETON_ALPINE_INSTALL_TARGET_CMDS

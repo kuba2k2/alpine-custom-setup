@@ -117,7 +117,7 @@ if [ -f "${TARGET_DIR}/sbin/apk" ]; then
 
 	MESSAGE "Packing initramfs"
 	pushd ${TARGET_DIR}
-	find . ! -wholename "./lib/modules/*" -print0 | cpio --null -o --format=newc | gzip -c > "${BOOT_DIR}/initramfs-acs"
+	find . ! -wholename "./lib/modules/*" ! -wholename "./usr/lib/modules/*" -print0 | cpio --null -o --format=newc | gzip -c > "${BOOT_DIR}/initramfs-acs"
 	popd
 	export RAMDISK="${BOOT_DIR}/initramfs-acs"
 
