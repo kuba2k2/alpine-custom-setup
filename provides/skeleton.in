@@ -18,6 +18,7 @@ config BR2_ROOTFS_SKELETON_ALPINE_ARCH
 	default "armv7" if BR2_arm && BR2_ARM_CPU_ARMV7A
 	default "armv7" if BR2_arm && BR2_ARM_FPU_NEON_VFPV4
 	default "armhf" if BR2_arm && BR2_ARM_EABIHF
+	default "aarch64" if BR2_aarch64
 	default "riscv64" if BR2_riscv
 	default "UNKNOWN"
 
