@@ -1,0 +1,7 @@
+config BR2_PACKAGE_LINUX_TM16XX_DISPLAY
+	bool "linux tm16xx-display"
+	depends on BR2_LINUX_KERNEL
+	help
+		Linux kernel driver for auxiliary displays based on led controllers such as tm16xx family and alike
+
+		https://github.com/jefflessard/tm16xx-display
