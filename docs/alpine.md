@@ -133,11 +133,11 @@ setup-devd udev
 rc-update -a del networking
 rc-update -a del wpa_supplicant
 rc-update add networkmanager boot
-# start NetworkManager
-service networkmanager start
 ```
 
 Edit `/etc/network/interfaces` and remove all interfaces except `lo`.
+
+Start NetworkManager using `service networkmanager start`.
 
 Check state of network interfaces with `nmcli dev`. If Wi-Fi is `unmanaged`, you'll most likely need to reboot.
 
