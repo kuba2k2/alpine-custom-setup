@@ -1,0 +1,30 @@
+/dts-v1/;
+
+#include "meson-gxl-s905w-alfawise-s95.dtsi"
+
+/ {
+	compatible = "alfawise,s95", "amlogic,s905w", "amlogic,meson-gxl";
+	model = "Alfawise S95";
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0x0 0x0 0x0 0x40000000>; /* 1 GiB or 2 GiB */
+	};
+
+	adc-keys {
+		compatible = "adc-keys";
+		io-channels = <&saradc 0>;
+		io-channel-names = "buttons";
+		keyup-threshold-microvolt = <1710000>;
+
+		button-boot {
+			label = "boot";
+			linux,code = <0x168>; /* KEY_VENDOR */
+			press-threshold-microvolt = <10000>;
+		};
+	};
+};
+
+&usb {
+	dr_mode = "host";
+};

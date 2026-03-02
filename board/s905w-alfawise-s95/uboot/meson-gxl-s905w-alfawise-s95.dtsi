@@ -1,0 +1,4 @@
+/dts-v1/;
+
+#include "../../../dts/upstream/src/arm64/amlogic/meson-gxl-s905x.dtsi"
+#include "../../../dts/upstream/src/arm64/amlogic/meson-gx-p23x-q20x.dtsi"
