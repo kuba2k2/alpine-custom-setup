@@ -20,5 +20,10 @@ define LINUX_TM16XX_DISPLAY_LINUX_CONFIG_FIXUPS
 	$(call KCONFIG_SET_OPT,CONFIG_LINEDISP,m)
 endef
 
+LINUX_TM16XX_DISPLAY_INSTALL_IMAGES = YES
+define LINUX_TM16XX_DISPLAY_INSTALL_IMAGES_CMDS
+	source $(LINUX_TM16XX_DISPLAY_PKGDIR)/install-apkovl.sh
+endef
+
 $(eval $(kernel-module))
 $(eval $(generic-package))
