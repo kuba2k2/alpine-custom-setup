@@ -1,0 +1,6 @@
+config BR2_PACKAGE_HOST_MKAMLIMAGE
+	bool "host mkamlimage"
+	help
+		Amlogic Upgrade Package creation/extraction tool
+
+		https://github.com/kuba2k2/mkamlimage
