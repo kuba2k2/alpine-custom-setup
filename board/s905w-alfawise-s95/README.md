@@ -24,7 +24,7 @@ Connect an UART adapter or HDMI monitor to access the Linux console. Login as ro
 ## Recommended: flash the firmware
 
 1. Enter Amlogic USB download mode - connect an USB A-A cable and power on the device.
-2. Flash `u-boot-live.img` using Amlogic USB Burning Tool.
+2. Flash `u-boot-live.img` using Amlogic USB Burning Tool. This might fail with a `Switch status` error - this is expected.
 3. The device should be now visible on your PC as a mass-storage device.
 4. Flash `sdcard.img` to the USB mass-storage device, using e.g. `dd` or `Win32DiskImager`.
 5. Disconnect USB and reset the device - it should start booting Alpine Linux.
@@ -55,7 +55,6 @@ The partition table should now look like this:
 Device       Boot StartCHS    EndCHS        StartLBA     EndLBA    Sectors  Size Id Type
 /dev/mmcblk1p1 *  0,130,3     16,211,3          8192     270335     262144  128M  c Win95 FAT32 (LBA)
 /dev/mmcblk1p2    425,12,1    1023,211,3      270336   30777343   30507008 14.5G 83 Linux
-
 ```
 
 Exit `fdisk` and write changes using `w`. If it fails to reread the partition table, reboot the system (remember to configure network again).
