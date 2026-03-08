@@ -21,6 +21,7 @@ The `<config>` can be one of:
 - [`h3_fingbox_v1_defconfig`](board/h3-fingbox-v1/README.md) - Fingbox v1
 - [`rk2926_tac_70072_defconfig`](board/rk2926-tac-70072/README.md) - Denver TAC-70072 Rockchip RK2926 Tablet
 - [`s905w_alfawise_s95_defconfig`](board/s905w-alfawise-s95/README.md) - Alfawise S95 Amlogic S905W Set-top box
+- [`s912_h96_pro_plus_defconfig`](board/s912-h96-pro-plus/README.md) - H96 Pro+ Amlogic S912 Set-top box
 - [`u8500_golden_defconfig`](board/u8500-golden/README.md) - Samsung Galaxy S3 mini (GT-I8190N)
 
 3. Run `make all` to compile all packages. Also, make sure to run `make clean` before configuring a different target.

@@ -1,0 +1,4 @@
+/dts-v1/;
+
+#include "amlogic/meson-gxm.dtsi"
+#include "amlogic/meson-gx-p23x-q20x.dtsi"
