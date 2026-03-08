@@ -22,7 +22,7 @@ echo 'Defaults env_keep += "EDITOR"' > /etc/sudoers.d/env-editor
 passwd -d root
 
 # replace busybox
-apk add util-linux usbutils coreutils binutils findutils grep iproute2 wget less diffutils blkid musl-locales
+apk add util-linux usbutils coreutils binutils findutils grep iproute2 wget less diffutils blkid musl-locales tar
 # add vim
 apk add vim
 # install curl
@@ -71,8 +71,14 @@ ls -1 /home | xargs -I{} bash -c "echo source /etc/profile.d/color_prompt.sh >> 
 # disable mc's built-in editor in favor of vim
 mkdir -p ~/.config/mc/
 echo -e "[Midnight-Commander]\nuse_internal_edit=false" >> ~/.config/mc/ini
-# use a nicer color skin
+# same for users
+ls -1 /home | xargs -I{} bash -c 'mkdir -p /home/{}/.config/mc/'
+ls -1 /home | xargs -I{} bash -c 'echo -e "[Midnight-Commander]\nuse_internal_edit=false" >> /home/{}/.config/mc/ini'
+
+# use a nicer color skin in mc
 echo -e "[Midnight-Commander]\nskin=modarin256root-defbg" >> ~/.config/mc/ini
+# same for users, but the non-root skin variant
+ls -1 /home | xargs -I{} bash -c 'echo -e "[Midnight-Commander]\nskin=modarin256-defbg" >> /home/{}/.config/mc/ini'
 
 # support mDNS discovery
 apk add avahi
