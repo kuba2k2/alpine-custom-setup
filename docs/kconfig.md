@@ -14,6 +14,11 @@
 - `kernel.unprivileged_bpf_disabled` -> `CONFIG_BPF_SYSCALL`
 - `/proc/sys/kernel/hotplug` -> `CONFIG_CPU_HOTPLUG_STATE_CONTROL`
 
+## Firmware support
+
+- `CONFIG_FW_LOADER_COMPRESS=y`
+- `CONFIG_FW_LOADER_COMPRESS_ZSTD=y`
+
 # U-Boot configuration
 
 ## Required options
