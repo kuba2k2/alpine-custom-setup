@@ -23,7 +23,7 @@ Refer to [network.md](../../docs/network.md). The following steps won't work wit
 To reload Wi-Fi drivers after installing firmware:
 
 ```bash
-rmmod brcmfmac && modprobe brcmfmac
+rmmod brcmfmac; modprobe brcmfmac
 ```
 
 ## Create & format root volume

@@ -67,7 +67,7 @@ cp /media/mmcblk0p1/eeprom_ar9271.bin /lib/firmware/
 To reload Wi-Fi drivers after installing firmware:
 
 ```bash
-rmmod ath9k_htc && modprobe ath9k_htc
+rmmod ath9k_htc; modprobe ath9k_htc
 ```
 
 ## Create & format root volume
