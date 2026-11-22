@@ -18,8 +18,12 @@ echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel-nopw
 #echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
 # keep EDITOR choice
 echo 'Defaults env_keep += "EDITOR"' > /etc/sudoers.d/env-editor
-# block root password login (still works via UART/fbconsole or SSH with pubkey)
-passwd -d root
+
+# disable root password login (still works via SSH with pubkey)
+passwd -l root
+# alternatively, use -d if you need passwordless login on UART console
+# (dropbear doesn't allow empty passwords, so it should still be safe)
+#passwd -d root
 
 # replace busybox
 apk add util-linux usbutils coreutils binutils findutils grep iproute2 wget less diffutils blkid musl-locales tar
@@ -37,22 +41,9 @@ sed -i s#/bin/sh#/bin/bash#g /etc/passwd
 ln -s /etc/profile.d/color_prompt.sh.disabled /etc/profile.d/color_prompt.sh
 
 # install duf
-curl -s https://api.github.com/repos/muesli/duf/releases/latest \
-	| grep "browser_download_url.*$(apk --print-arch)\.apk" \
-	| cut -d : -f 2,3 \
-	| tr -d \" \
-	| wget -qi -
-apk add --allow-untrusted duf_*_$(apk --print-arch).apk
-rm -f duf_*_$(apk --print-arch).apk
-
-# for armhf, use the armv7 version:
-curl -s https://api.github.com/repos/muesli/duf/releases/latest \
-	| grep "browser_download_url.*armv7\.apk" \
-	| cut -d : -f 2,3 \
-	| tr -d \" \
-	| wget -qi -
-apk add --allow-untrusted duf_*_armv7.apk
-rm -f duf_*_armv7.apk
+# available in Alpine's official testing repo
+# as well as in https://kuba.szczodrzynski.pl/alpine/.../extra/ (resigned)
+apk add duf
 
 # replace openssh with dropbear
 apk add dropbear openssh-sftp-server
@@ -66,19 +57,18 @@ apk add btop
 # Midnight Commander somehow overrides custom prompt from /etc/profile.d
 # add to each user's .bashrc
 echo source /etc/profile.d/color_prompt.sh >> ~/.bashrc
-ls -1 /home | xargs -I{} bash -c "echo source /etc/profile.d/color_prompt.sh >> /home/{}/.bashrc"
+ls -1 /home | xargs -I{} su {} -c "echo source /etc/profile.d/color_prompt.sh >> /home/{}/.bashrc"
 
-# disable mc's built-in editor in favor of vim
+# configure Midnight Commander for root and all users
 mkdir -p ~/.config/mc/
+ls -1 /home | xargs -I{} su {} -c 'mkdir -p /home/{}/.config/mc/'
+# disable internal editor
 echo -e "[Midnight-Commander]\nuse_internal_edit=false" >> ~/.config/mc/ini
-# same for users
-ls -1 /home | xargs -I{} bash -c 'mkdir -p /home/{}/.config/mc/'
-ls -1 /home | xargs -I{} bash -c 'echo -e "[Midnight-Commander]\nuse_internal_edit=false" >> /home/{}/.config/mc/ini'
-
+ls -1 /home | xargs -I{} su {} -c 'echo -e "[Midnight-Commander]\nuse_internal_edit=false" >> /home/{}/.config/mc/ini'
 # use a nicer color skin in mc
-echo -e "[Midnight-Commander]\nskin=modarin256root-defbg" >> ~/.config/mc/ini
 # same for users, but the non-root skin variant
-ls -1 /home | xargs -I{} bash -c 'echo -e "[Midnight-Commander]\nskin=modarin256-defbg" >> /home/{}/.config/mc/ini'
+echo -e "[Midnight-Commander]\nskin=modarin256root-defbg" >> ~/.config/mc/ini
+ls -1 /home | xargs -I{} su {} -c 'echo -e "[Midnight-Commander]\nskin=modarin256-defbg" >> /home/{}/.config/mc/ini'
 
 # support mDNS discovery
 apk add avahi
